@@ -107,7 +107,9 @@ Streamlit actualiza continuamente el área de video con el último frame procesa
 El modelo de **MediaPipe Pose** identifica los puntos clave del cuerpo humano, como hombros y caderas.  
 La postura se determina midiendo la distancia vertical promedio entre estos puntos.
 
-```python
-hombros_y = (puntos[11].y + puntos[12].y) / 2
-caderas_y = (puntos[23].y + puntos[24].y) / 2
-altura_torso = abs(caderas_y - hombros_y)
+## Criterio de detección:
+
+- Si el **torso es largo** (`altura_torso > 0.30`) → la persona está **de pie**.  
+- Si el **torso es corto** (`altura_torso ≤ 0.30`) → la persona está **sentada**.
+
+Esta comparación se realiza **en cada frame**, lo que permite que el sistema actualice la postura en tiempo real al detectar movimientos de la persona frente a la cámara.
